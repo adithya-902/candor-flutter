@@ -1,6 +1,6 @@
+import 'package:candor_flutter/utils/colours.dart';
 import 'package:candor_flutter/widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -25,17 +25,83 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(child: Container(), flex: 1),
-              SvgPicture.asset(
-                'assets/logo.svg',
-                height: 64,
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                    height: 150,
+                  )),
+              Column(
+                children: [
+                  Container(
+                    height: 230,
+                    width: 400,
+                    padding: const EdgeInsets.all(12),
+                    decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      color: theYellowColor,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      alignment: Alignment.center,
+                      decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        color: theRedColor,
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        alignment: Alignment.center,
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          color: theGreenColor,
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: const ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            color: primaryColor,
+                          ),
+                          child: const Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 20),
+                                child: Text(
+                                  'Presenting',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: mobileBackgroundColor,
+                                      fontFamily: "Lobster"),
+                                ),
+                              ),
+                              Text(
+                                "Candor",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 80,
+                                    color: mobileBackgroundColor,
+                                    fontFamily: "Lobster"),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               TextFieldInput(
@@ -48,34 +114,39 @@ class _SignInScreenState extends State<SignInScreen> {
               TextFieldInput(
                   textEditingController: _passwordcontroller,
                   hintText: "Enter your password",
-                  textInputType: TextInputType.text),
-
+                  textInputType: TextInputType.text,
+                  isPass: true,
+                ),
+                  
               const SizedBox(
-                height: 40,
+                height: 35,
               ),
-
               Container(
-                child: Text("Login"),
                 width: double.infinity,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 23),
                 decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4)
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
+                    color: Colors.amber),
+                child: const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
-                  color: Colors.amber
                 ),
               ),
               const SizedBox(
                 height: 12,
               ),
-              Flexible(child: Container(), flex: 1,)
+              Flexible(
+                child: Container(),
+                flex: 1,
+              )
             ],
           ),
         ),
-        
       ),
     );
   }
