@@ -1,4 +1,5 @@
 import 'package:candor_flutter/screens/signIn.dart';
+import 'package:candor_flutter/screens/signUp.dart';
 import 'package:candor_flutter/utils/colours.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      home: const SignInScreen(),
+      home: const SignUpScreen(),
     );
   }
 }

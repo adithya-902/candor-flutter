@@ -2,22 +2,26 @@ import 'package:candor_flutter/utils/colours.dart';
 import 'package:candor_flutter/widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _biocontroller = TextEditingController();
+  final TextEditingController _usernamecontroller = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
+    _usernamecontroller.dispose();
+    _biocontroller.dispose();
   }
 
   @override
@@ -102,7 +106,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 ],
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
+              ),
+              TextFieldInput(
+                  textEditingController: _usernamecontroller,
+                  hintText: "Enter your username",
+                  textInputType: TextInputType.text),
+              const SizedBox(
+                height: 20,
               ),
               TextFieldInput(
                   textEditingController: _emailcontroller,
@@ -112,14 +123,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 height: 20,
               ),
               TextFieldInput(
-                  textEditingController: _passwordcontroller,
-                  hintText: "Enter your password",
-                  textInputType: TextInputType.text,
-                  isPass: true,
-                ),
-                  
+                textEditingController: _passwordcontroller,
+                hintText: "Enter your password",
+                textInputType: TextInputType.text,
+                isPass: true,
+              ),
               const SizedBox(
-                height: 35,
+                height: 20,
               ),
               Container(
                 width: double.infinity,
@@ -131,17 +141,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     color: Colors.amber),
                 child: const Text(
-                  "Login",
+                  "Sign Up",
                   style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Tanker",
-                    letterSpacing: 5.0
-                  ),
+                      fontSize: 30, fontFamily: "Tanker", letterSpacing: 5.0),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
               Flexible(
                 flex: 1,
                 child: Container(),
@@ -151,17 +158,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text("Don't have an account? "),
+                    child: const Text("Already have an account? "),
                   ),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        "Sign up",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   )
