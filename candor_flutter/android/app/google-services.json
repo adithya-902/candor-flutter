@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "548192452408",
+    "project_id": "candor-flutter",
+    "storage_bucket": "candor-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548192452408:android:6ea7691d3c731822cbcbcd",
+        "android_client_info": {
+          "package_name": "com.example.candor_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548192452408-4q8dpa0c52v1me1gsnjbg03co1tr4pke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.candor_flutter",
+            "certificate_hash": "eb88815bd0a36065368a3e55c8a679e831cdd28b"
+          }
+        },
+        {
+          "client_id": "548192452408-6arplgtujar19126flja21hh8n4n4ve1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJC4mjMrpAF-zBzW8gvb6iYey4kucs9s0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548192452408-6arplgtujar19126flja21hh8n4n4ve1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

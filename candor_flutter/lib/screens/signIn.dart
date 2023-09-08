@@ -1,9 +1,16 @@
+import 'package:candor_flutter/screens/forgot_pw.dart';
+import 'package:candor_flutter/screens/signUp.dart';
+import 'package:candor_flutter/services/auth_services.dart';
 import 'package:candor_flutter/utils/colours.dart';
-import 'package:candor_flutter/widgets/text_input_field.dart';
+import 'package:candor_flutter/widgets/presenting_candor.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/text_input_field.dart';
+
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  final Function()? onTap;
+  const SignInScreen({super.key, required this.onTap});
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -12,6 +19,47 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+
+  void signUserIn() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailcontroller.text, password: _passwordcontroller.text);
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (err) {
+      Navigator.pop(context);
+      if (err.code == "user-not-found") {
+        showErrorMessage("Incorrect E-Mail");
+      } else if (err.code == "wrong-password") {
+        showErrorMessage("Incorrect Password");
+      } else {
+        showErrorMessage(err.code);
+      }
+    }
+  }
+
+  void showErrorMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+              child: Text(
+                message,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: "Tanker", fontSize: 30),
+              ),
+            ),
+            backgroundColor: theYellowColor,
+          );
+        });
+  }
 
   @override
   void dispose() {
@@ -27,141 +75,134 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: [
               Flexible(
                   flex: 1,
                   child: Container(
-                    height: 150,
+                    height: 120,
                   )),
-              Column(
+              const presenting_candor(),
+              const SizedBox(
+                height: 30,
+              ),
+              TextFieldInput(
+                  textEditingController: _emailcontroller,
+                  hintText: "E-Mail",
+                  textInputType: TextInputType.emailAddress),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldInput(
+                textEditingController: _passwordcontroller,
+                hintText: "Password",
+                textInputType: TextInputType.text,
+                isPass: true,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    height: 230,
-                    width: 400,
-                    padding: const EdgeInsets.all(12),
-                    decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      color: theYellowColor,
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      alignment: Alignment.center,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        color: theRedColor,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        alignment: Alignment.center,
-                        decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          color: theGreenColor,
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: const ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            color: primaryColor,
-                          ),
-                          child: const Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  'Presenting',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      color: mobileBackgroundColor,
-                                      fontFamily: "Lobster"),
-                                ),
-                              ),
-                              Text(
-                                "Candor",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 80,
-                                    color: mobileBackgroundColor,
-                                    fontFamily: "Lobster"),
-                              )
-                            ],
-                          ),
-                        ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return ForgotPasswordPage();
+                        }),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color: Colors.white70,
                       ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(
-                height: 40,
-              ),
-              TextFieldInput(
-                  textEditingController: _emailcontroller,
-                  hintText: "Enter your E-Mail Address",
-                  textInputType: TextInputType.emailAddress),
-              const SizedBox(
                 height: 20,
               ),
-              TextFieldInput(
-                  textEditingController: _passwordcontroller,
-                  hintText: "Enter your password",
-                  textInputType: TextInputType.text,
-                  isPass: true,
-                ),
-                  
-              const SizedBox(
-                height: 35,
-              ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: const ShapeDecoration(
+              GestureDetector(
+                onTap: signUserIn,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  height: 60,
+                  decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    color: theYellowColor,
+                  ),
+                  child: const Text(
+                    "Login",
+                    style: TextStyle(
+                      fontFamily: "Tanker",
+                      fontSize: 30,
+                      letterSpacing: 5.0,
                     ),
-                    color: Colors.amber),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Tanker",
-                    letterSpacing: 5.0
                   ),
                 ),
               ),
               const SizedBox(
-                height: 12,
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () => AuthService().signInWithGoogle(),
+                child: Container(
+                  height: 60,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    Image.asset(
+                      'assets/google_logo.png',
+                      height: 60,
+                    ),
+                    const Text(
+                      "Login with Google",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "yantramanav",
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0,
+                          color: Colors.black),
+                    )
+                  ]),
+                ),
               ),
               Flexible(
-                flex: 1,
-                child: Container(),
-              ),
+                  child: Container(
+                height: 20,
+              )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text("Don't have an account? "),
+                    child: const Text(
+                      "Don't have an account? ",
+                      style: TextStyle(fontFamily: "yantramanav", fontSize: 20),
+                    ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: widget.onTap,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
                         "Sign up",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "yantramanav",
+                            fontSize: 20),
                       ),
                     ),
                   )
